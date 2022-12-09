@@ -22,7 +22,7 @@ The software currently supports the following functions:
 
 ## Github
 
-[Github](https://github.com/Cheesecuter)
+[Github](https://github.com/Cheesecuter/DatabaseOperator)
 
 ## License
 
