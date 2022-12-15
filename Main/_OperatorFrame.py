@@ -123,14 +123,14 @@ class OperatorFrame(wx.Frame):
         emptyResult = []
         usableID = None
         sql = str("""
-        select * from hash_card
+        select * from card
         where sno="""+str(self.inputStuNo.GetValue()))
         self._cursor.execute(sql)
         result = self._cursor.fetchall()
         if(result == emptyResult):
             for it in range(100001, 999999):
                 sql = str("""
-                        select * from hash_card
+                        select * from card
                         where card_id="""+str(it))
                 self._cursor.execute(sql)
                 result = self._cursor.fetchall()
@@ -141,10 +141,11 @@ class OperatorFrame(wx.Frame):
                     continue
             print(usableID)
             sql = """
-            insert into hash_card
+            insert into card
             values('"""+str(usableID)+"""','""" +\
                 str(self.inputStuNo.GetValue())+"""',""" +\
-                str(self.inputCharge.GetValue())+""")"""
+                str(self.inputCharge.GetValue())+""",'""" +\
+                """')"""
             print(sql)
             self._cursor.execute(sql)
             self._connInfo.commit()
@@ -170,11 +171,11 @@ class OperatorFrame(wx.Frame):
         print(self._lang_._opf_Calling__opf_Cancel_f)
         self._cursor = self._connInfo.cursor()
         sql = str("""
-                delete from hash_card
+                delete from card
                 where card_id=(
                 select card_id
-                from hash_card,student
-                where hash_card.sno=student.sno and
+                from card,student
+                where card.sno=student.sno and
                 student.sno='"""+str(self.inputStuNo.GetValue())+"""')""")
         try:
             self._cursor.execute(sql)
@@ -202,7 +203,7 @@ class OperatorFrame(wx.Frame):
         print(self._lang_._opf_Calling__opf_Recharge_f)
         self._cursor = self._connInfo.cursor()
         sql = str("""
-                update hash_card
+                update card
                 set balance=balance+"""+str(self.inputCharge.GetValue()) +
                   """
                 where
@@ -243,7 +244,7 @@ class OperatorFrame(wx.Frame):
         print(self._lang_._opf_Calling__opf_Deduct_f)
         self._cursor = self._connInfo.cursor()
         sql = str("""
-                update hash_card
+                update card
                 set balance=balance-"""+str(self.inputCharge.GetValue()) +
                   """
                 where
